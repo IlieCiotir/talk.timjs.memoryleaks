@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Memory Leaks</title>
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script type="text/javascript" src="js/app.js"></script>
+</head>
+<body onload="app.init()">
+	<aside>
+		<audio id="kenny_mourn">
+			<source src="sounds/shot.mp3" type="audio/mp3">
+		</audio>
+		<audio id="stan_mourn">
+			<source src="sounds/omgtheykilledkenny.mp3" type="audio/mp3">
+		</audio>
+		<audio id="kyle_mourn">
+			<source src="sounds/youbastards.mp3" type="audio/mp3">
+		</audio>
+	</aside>
+	<main class="content" id="scene">
+		
+	</main>
+	<button onclick="app.killKenny()">Kill Kenny</button>
+</body>
+</html>
