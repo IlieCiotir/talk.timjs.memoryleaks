@@ -1,6 +1,39 @@
 .content {
 	display: flex;
-	flex-flow: row nowrap;
+	flex-flow: row wrap;
 	justify-content: space-between;
 	padding: 50px 100px;
+}
+
+.header-actions {
+	display: flex;
+	justify-content: space-around;
+}
+
+button {
+	width: 300px;
+	height: 60px;
+	
+	border: none;
+	font-size: 3em;
+	color: white;
+}
+
+.kill-button {
+	background-color: red;
+	box-shadow: red 0px 0px 30px;
+}
+
+.start-button {
+	background-color: green;
+	box-shadow: green 0px 0px 30px;
+}
+
+.end-button {
+	background-color: blue;
+	box-shadow: blue 0px 0px 30px;
+}
+
+.button:hover {
+	border: solid 1px white;
 }

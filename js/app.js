@@ -1,34 +1,33 @@
 var soundManager = (function(document) {
-	var chars = []
-	return {
-		registerCharacter: function(character) {
-			chars.push(character);
-		},
-
-		mourn: function() {
-			var previousSound;
-			chars.forEach(function(character) {
-				var mournSound = document.getElementById(character.sounds.mourn);
-				if(mournSound) {
-					console.log("exists:" + character.sounds.mourn);
-					if(previousSound && !previousSound.ended) {
-						console.log("previous not ended:" + character.sounds.mourn);
-						previousSound.addEventListener('ended', function() {
-							console.log("on previous ended:" + character.sounds.mourn);
-							mournSound.play();
-						});
-					} else {
-						mournSound.play();
-					}
-					previousSound = mournSound;
-				}
+	function linkSounds(sounds) {
+		var first = sounds[0];
+		var tail =sounds.slice(1);
+		var previous = first;
+		tail.forEach(function(sound) {
+			previous.addEventListener('ended', function() {
+				sound.play();
 			});
+			previous = sound;
+		});
+
+		return first;
+	}
+
+	var mourningSounds = [].slice.call(document.querySelectorAll('.mourn'));
+	var rejoiceSounds = [].slice.call(document.querySelectorAll('.rejoice'));
+	var mournStarter = linkSounds(mourningSounds);
+
+	///////////////
+
+	return {
+		mourn : function() {
+			mournStarter.play();
 		},
 
 		rejoice: function() {}
 	};
-})(document);
 
+})(document);
 
 var app = (function(window, document, soundManager) {
 	function Character(name) {
@@ -48,47 +47,61 @@ var app = (function(window, document, soundManager) {
 		return {
 			elem: elem,
 			name: name,
-			sounds: {
-				mourn: name.toLowerCase() + '_mourn',
-				rejoice: name.toLowerCase() + '_rejoice'
-			}
 		};
 	}
 
-	var eric, kenny, kyle, stan, scene;
+	///////////////////
 
+	function initScene() {
+		var scene = document.getElementById('scene');
+		if(!scene) {
+			var scene = document.createElement("main");
+			scene.id = 'scene';
+			scene.className  = 'content';
+			document.querySelector('body').appendChild(scene);
+		}
+		return scene;
+	}
+
+	var scene;
+	var charactersToKill = [];
+	
 	///////////////
 
 	return {
 		init: function() {
-
-			scene = document.getElementById('scene');
-			eric = new Character('Eric');
-			kenny = new Character('Kenny');
-			kyle = new Character('Kyle');
-			stan = new Character('Stan');
-
-			scene.appendChild(eric.elem);
-			scene.appendChild(kenny.elem);
-			scene.appendChild(kyle.elem);
-			scene.appendChild(stan.elem);
-			
-			soundManager.registerCharacter(eric);
-			soundManager.registerCharacter(kenny);
-			
-			soundManager.registerCharacter(stan);
-			soundManager.registerCharacter(kyle);
-
-		},
-
-		killKenny: function() {
-			scene.removeChild(kenny.elem);
-			soundManager.mourn();
-
-			setTimeout(function() {
-				kenny = new Character('Kenny');
+			for(var i=0; i<100; i++) {
+				scene = initScene();
+				var kenny = new Character('Kenny');
+				charactersToKill.push(kenny);
+				scene.appendChild(new Character('Eric').elem);
 				scene.appendChild(kenny.elem);
-			}, 3000);
+				scene.appendChild(new Character('Kyle').elem);
+				scene.appendChild(new Character('Stan').elem);	
+			}
+		},
+		killKennys: function() {
+			soundManager.mourn();
+			charactersToKill.map(function(character) {
+				try {
+					scene.removeChild(character.elem);
+				} catch (e) {console.log(e);}
+			});
+			
+			setTimeout(function() {
+				for(var i=0; i<100; i++) {
+					var kenny = new Character('Kenny');
+					charactersToKill.push(kenny);
+					scene.insertBefore(kenny.elem, scene.children[Math.floor(Math.random() * scene.children.length)]);
+				}
+			}, 1500);
+		},
+		endShow: function(event) {
+			if(event) {
+				charactersToKill = [];
+				scene.remove();
+				scene = null;
+			}	
 		}
 	};
 

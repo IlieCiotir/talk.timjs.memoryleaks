@@ -3,23 +3,28 @@
 <head>
 	<title>Memory Leaks</title>
 	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<script type="text/javascript" src="js/app.js"></script>
+	
 </head>
-<body onload="app.init()">
-	<aside>
-		<audio id="kenny_mourn">
+<body>
+	<aside id="mourn_sounds">
+		<audio id="kenny_mourn" class="mourn">
 			<source src="sounds/shot.mp3" type="audio/mp3">
 		</audio>
-		<audio id="stan_mourn">
+		<audio id="stan_mourn" class="mourn">
 			<source src="sounds/omgtheykilledkenny.mp3" type="audio/mp3">
 		</audio>
-		<audio id="kyle_mourn">
+		<audio id="kyle_mourn" class="mourn">
 			<source src="sounds/youbastards.mp3" type="audio/mp3">
 		</audio>
 	</aside>
+	<header class="header-actions">
+		<button class="start-button" onclick="app.init()">Start show</button>
+		<button class="kill-button" onclick="app.killKennys()">Kill Kenny</button>
+		<button class="end-button" onclick="app.endShow(event)">End show</button>
+	</header>
 	<main class="content" id="scene">
 		
 	</main>
-	<button onclick="app.killKenny()">Kill Kenny</button>
+	<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
