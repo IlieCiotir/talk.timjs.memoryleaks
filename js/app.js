@@ -10,10 +10,11 @@ var soundManager = (function(document) {
 			chars.forEach(function(character) {
 				var mournSound = document.getElementById(character.sounds.mourn);
 				if(mournSound) {
+					console.log("exists:" + character.sounds.mourn);
 					if(previousSound && !previousSound.ended) {
+						console.log("previous not ended:" + character.sounds.mourn);
 						previousSound.addEventListener('ended', function() {
-							console.log(mournSound);
-							previousSound.pause();
+							console.log("on previous ended:" + character.sounds.mourn);
 							mournSound.play();
 						});
 					} else {
@@ -84,13 +85,11 @@ var app = (function(window, document, soundManager) {
 			scene.removeChild(kenny.elem);
 			soundManager.mourn();
 
-			/*setTimeout(function() {
+			setTimeout(function() {
 				kenny = new Character('Kenny');
 				scene.appendChild(kenny.elem);
-			}, 3000);*/
+			}, 3000);
 		}
 	};
 
 })(window, document, soundManager);
-
-console.log(screen);
