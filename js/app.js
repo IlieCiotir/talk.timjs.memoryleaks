@@ -82,7 +82,7 @@ var app = (function(window, document, soundManager) {
 		},
 		killKennys: function() {
 			soundManager.mourn();
-			charactersToKill.map(function(character) {
+			charactersToKill.forEach(function(character) {
 				try {
 					scene.removeChild(character.elem);
 				} catch (e) {console.log(e);}
